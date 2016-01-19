@@ -62,7 +62,9 @@ module.exports = function (options) {
             } else {
                 process = exec(SONAR_RUNNER_COMMAND, options_exec, function () {});
                 process.stdout.on('data', function (c) {
-                    gutil.log(c);
+                    if (!options.silent) {
+                        gutil.log(c);
+                    }
                 });
                 process.stderr.on('data', function (c) {
                     gutil.log(c);
@@ -72,7 +74,9 @@ module.exports = function (options) {
                         gutil.log(format('Return code: %d.', code));
                         throw new PluginError('gulp-sonar', format('Return code: %d.', code));
                     }
-                    gutil.log(format('Return code: %d.', code));
+                    if (!options.silent) {
+                        gutil.log(format('Return code: %d.', code));
+                    }
                     cb();
                 });
             }
